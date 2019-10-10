@@ -5,7 +5,7 @@ import styles from './index.module.scss';
 
 const { Row, Col } = Grid;
 
-export default function UserLayout(props) {
+export default function WelcomeLayout(props) {
   return (
     <div className={styles.container}>
       {props.children}

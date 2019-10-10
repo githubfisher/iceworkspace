@@ -1,6 +1,6 @@
 import React from 'react';
 
-import UserLayout from '@/layouts/UserLayout';
+import WelcomeLayout from '@/layouts/WelcomeLayout';
 import BasicLayout from '@/layouts/BasicLayout';
 
 const Dashboard = React.lazy(() => import('@/pages/Dashboard'));
@@ -23,11 +23,19 @@ const ServerError = React.lazy(() => import('@/pages/ServerError'));
 
 const routerConfig = [
   {
-    path: '/user',
-    component: UserLayout,
+    path: '/',
+    component: WelcomeLayout,
     children: [
       { path: '/login', component: UserLogin },
-      { path: '/', redirect: '/user/login' },
+      { path: '/', redirect: '/login' },
+      { component: NotFound },
+    ],
+  },
+  {
+    path: '/dashboard',
+    component: BasicLayout,
+    children: [
+      { path: '/monitor', component: Dashboard },
       { component: NotFound },
     ],
   },
