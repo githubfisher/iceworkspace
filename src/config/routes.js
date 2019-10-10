@@ -4,6 +4,7 @@ import UserLayout from '@/layouts/UserLayout';
 import BasicLayout from '@/layouts/BasicLayout';
 
 const Dashboard = React.lazy(() => import('@/pages/Dashboard'));
+const UserLogin = React.lazy(() => import('@/pages/UserLogin'));
 const Charts = React.lazy(() => import('@/pages/Charts'));
 const BasicCharts = React.lazy(() => import('@/pages/BasicCharts'));
 const Terms = React.lazy(() => import('@/pages/Terms'));
@@ -24,14 +25,18 @@ const routerConfig = [
   {
     path: '/user',
     component: UserLayout,
-    children: [{ path: '/', redirect: '/user/login' }, { component: NotFound }],
+    children: [
+      { path: '/login', component: UserLogin },
+      { path: '/', redirect: '/user/login' },
+      { component: NotFound },
+    ],
   },
   {
     path: '/',
     component: BasicLayout,
     children: [
+      { path: '/profile/general', component: Terms },
       { path: '/dashboard/monitor', component: Dashboard },
-      { path: '/chart/general', component: Charts },
       { path: '/chart/basic', component: BasicCharts },
       { path: '/list/basic', component: BasicList },
       { path: '/list/general', component: ProjectList },
@@ -39,7 +44,7 @@ const routerConfig = [
       { path: '/result/fail', component: Fail },
       { path: '/table/basic', component: BasicTable },
       { path: '/profile/basic', component: Profile },
-      { path: '/profile/general', component: Terms },
+      { path: '/chart/general', component: Charts },
       { path: '/table/general', component: GeneralTable },
       { path: '/account/setting', component: Setting },
       { path: '/exception/500', component: ServerError },
