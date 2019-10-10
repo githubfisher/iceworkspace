@@ -23,19 +23,11 @@ const ServerError = React.lazy(() => import('@/pages/ServerError'));
 
 const routerConfig = [
   {
-    path: '/',
+    path: '/user',
     component: WelcomeLayout,
     children: [
       { path: '/login', component: UserLogin },
       { path: '/', redirect: '/login' },
-      { component: NotFound },
-    ],
-  },
-  {
-    path: '/dashboard',
-    component: BasicLayout,
-    children: [
-      { path: '/monitor', component: Dashboard },
       { component: NotFound },
     ],
   },
