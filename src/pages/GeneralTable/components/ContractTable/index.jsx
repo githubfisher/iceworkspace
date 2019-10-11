@@ -10,7 +10,7 @@ export default function ContractTable(props) {
   }
 
   function handleMore() {
-    Message.success('暂不支持查看详情');
+    location.href = 'list/general';
   }
 
   function renderState(value) {
