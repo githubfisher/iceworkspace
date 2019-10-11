@@ -18,6 +18,8 @@ export async function request(options) {
     if (error) {
       throw error;
     } else {
+      console.log('suc:', response);
+      console.log('suc:', data);
       return { response, data };
     }
   } catch (error) {
