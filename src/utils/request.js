@@ -21,9 +21,9 @@ export async function request(options) {
       return { response, data };
     }
   } catch (error) {
-    showError(error.message);
     console.error(error);
-    throw error;
+    showError(error.message);
+    // throw error;
   }
 }
 
