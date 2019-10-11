@@ -3,6 +3,7 @@ import IceContainer from '@icedesign/container';
 import { injectIntl } from 'react-intl';
 import ContainerTitle from '../ContainerTitle';
 import styles from './index.module.scss';
+import { request } from '@/utils/request';
 
 const mockData = [
   {
@@ -55,6 +56,19 @@ function SearchHistory(props) {
     props.fetchData();
   }
 
+  function req() {
+    try {
+      const { response, data } = request({
+         url: '/api/list',
+      });
+      console.log('success', data);
+      console.log('success', response);
+    } catch(err) {
+      // request 方法已处理异常，通常这里不需要做特殊处理
+      console.error(err);
+    }
+  }
+
   return (
     <IceContainer className={styles.container}>
       <ContainerTitle
@@ -66,7 +80,7 @@ function SearchHistory(props) {
             <div className={styles.historyItem} key={index}>
               <div className={styles.itemInfo}>
                 <span className={styles.time}>{item.time}</span>
-                <span className={styles.query} onClick={handleQuery}>
+                <span className={styles.query} onClick={req}>
                   再次查询
                 </span>
               </div>
