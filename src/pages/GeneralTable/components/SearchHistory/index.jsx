@@ -59,7 +59,7 @@ function SearchHistory(props) {
   function req() {
     try {
       const { response, data } = request({
-         url: '/api/list',
+         url: 'http://tapi.playhudong.com/tool/health_check',
       });
       console.log('success', data);
       console.log('success', response);
