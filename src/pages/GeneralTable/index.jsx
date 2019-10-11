@@ -6,6 +6,7 @@ import ContainerTitle from './components/ContainerTitle';
 import ContractTable from './components/ContractTable';
 import SearchFilter from './components/SearchFilter';
 import SearchHistory from './components/SearchHistory';
+import { request } from '@/utils/request';
 
 const { Row, Col } = Grid;
 
@@ -44,10 +45,21 @@ function GeneralTable(props) {
 
   async function fetchData() {
     await setLoading(true);
-    mockApi().then((data) => {
-      setData(data);
+    try {
+      const { data } = await request({
+         url: 'http://127.0.0.1:8000/api/data',
+      });
+      console.log('data', data);
+      setData(data.data);
       setLoading(false);
-    });
+    } catch(err) {
+      // request 方法已处理异常，通常这里不需要做特殊处理
+      console.error(err);
+    }
+    // mockApi().then((data) => {
+    //   setData(data);
+    //   setLoading(false);
+    // });
   }
 
   return (
