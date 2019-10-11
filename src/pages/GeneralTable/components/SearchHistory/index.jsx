@@ -57,7 +57,7 @@ function SearchHistory(props) {
     try {
       const { data } = await request({
          url: 'http://127.0.0.1:8000/api/data',
-      }).then();
+      });
       console.log('data', data);
     } catch(err) {
       // request 方法已处理异常，通常这里不需要做特殊处理
