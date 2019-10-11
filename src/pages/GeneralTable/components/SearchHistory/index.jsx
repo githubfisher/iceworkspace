@@ -52,17 +52,13 @@ function SearchHistory(props) {
     intl: { formatMessage },
   } = props;
 
-  function handleQuery() {
-    props.fetchData();
-  }
-
-  function req() {
+  async function handleQuery() {
+    // props.fetchData();
     try {
-      const { response, data } = request({
+      const { data } = await request({
          url: 'http://127.0.0.1:8000/api/data',
-      });
+      }).then();
       console.log('data', data);
-      console.log('response', response);
     } catch(err) {
       // request 方法已处理异常，通常这里不需要做特殊处理
       console.error(err);
@@ -80,7 +76,7 @@ function SearchHistory(props) {
             <div className={styles.historyItem} key={index}>
               <div className={styles.itemInfo}>
                 <span className={styles.time}>{item.time}</span>
-                <span className={styles.query} onClick={req}>
+                <span className={styles.query} onClick={handleQuery}>
                   再次查询
                 </span>
               </div>
