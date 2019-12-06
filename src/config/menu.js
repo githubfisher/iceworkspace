@@ -11,6 +11,7 @@ const headerMenuConfig = [
     icon: 'message',
     id: 'Menu_hx7k9',
   },
+
   {
     name: 'help',
     path: 'https://alibaba.github.io/ice',
@@ -100,6 +101,17 @@ const asideMenuConfig = [
     ],
     id: 'Menu_gthc6',
   },
+  { 
+    name: '权限管理', 
+    path: '/permission',
+    icon: 'menu',
+    children: [
+      { name: '权限', path: '/permission/permission', id: 'Menu_gtsoj' },
+      { name: '角色', path: '/permission/role', id: 'Menu_jgrs5' },
+    ], 
+    id: 'Menu_aph45',
+  },
+  
 ];
 
 export { headerMenuConfig, asideMenuConfig };

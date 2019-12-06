@@ -32,6 +32,10 @@ export default {
   'app.menu.exception.403': '403',
   'app.menu.exception.500': '500',
 
+  'app.menu.permission': '权限',
+  'app.menu.permission.permission': '权限',
+  'app.menu.permission.role': '角色',
+  
   // Top Header
   'app.header.feedback': '反馈',
   'app.header.help': '帮助',

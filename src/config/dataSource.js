@@ -22,3 +22,23 @@ export const menu = {
   url: '/api/menu',
   method: 'GET',
 };
+
+export const permissionList = {
+  url: '/permission',
+  method: 'GET',
+};
+
+export const permissionCreate = {
+  url: '/permission',
+  method: 'POST',
+};
+
+export const roleList = {
+  url: '/role',
+  method: 'GET',
+};
+
+export const roleCreate = {
+  url: '/role',
+  method: 'POST',
+};

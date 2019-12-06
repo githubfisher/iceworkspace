@@ -32,6 +32,10 @@ export default {
   'app.menu.exception.403': 'Not Permission',
   'app.menu.exception.500': 'Server Error',
 
+  'app.menu.permission': 'permission',
+  'app.menu.permission.permission': 'permission',
+  'app.menu.permission.role': 'role',
+
   // Top Header
   'app.header.feedback': 'Feedback',
   'app.header.help': 'Help',

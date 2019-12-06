@@ -20,6 +20,8 @@ const Empty = React.lazy(() => import('@/pages/Empty'));
 const Forbidden = React.lazy(() => import('@/pages/Forbidden'));
 const NotFound = React.lazy(() => import('@/pages/NotFound'));
 const ServerError = React.lazy(() => import('@/pages/ServerError'));
+const Permission = React.lazy(() => import('@/pages/Permission'));
+const Role = React.lazy(() => import('@/pages/Role'));
 
 const routerConfig = [
   {
@@ -51,6 +53,8 @@ const routerConfig = [
       { path: '/exception/403', component: Forbidden },
       { path: '/exception/204', component: Empty },
       { path: '/exception/404', component: NotFound },
+      { path: '/permission/permission', component: Permission },
+      { path: '/permission/role', component: Role },
       { path: '/', redirect: '/dashboard/monitor' },
       { component: NotFound },
     ],

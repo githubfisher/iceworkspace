@@ -63,7 +63,7 @@ function Header(props) {
   } = props;
 
   const { userinfo, fetchData } = userProfile;
-  const { name, department, avatar } = userinfo;
+  const { name, nickname, headimgurl } = userinfo;
   const { toggle } = expandAside;
 
   useEffect(() => {
@@ -131,7 +131,7 @@ function Header(props) {
                 <IceImg
                   height={40}
                   width={40}
-                  src={avatar}
+                  src={headimgurl}
                   className={styles.userAvatar}
                 />
                 {
@@ -142,7 +142,7 @@ function Header(props) {
                       </span>
                       <br />
                       <span className={styles.userDepartment}>
-                        {department}
+                        {nickname}
                       </span>
                     </div>
                   )

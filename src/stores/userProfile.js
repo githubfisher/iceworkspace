@@ -5,15 +5,15 @@ import { userProfile } from '@/config/dataSource';
 export default {
   userinfo: {
     name: '',
-    department: '',
-    avatar: '',
+    nickname: '',
+    headimgurl: '',
   },
   userid: '',
 
   async fetchData() {
     const { data } = await request(userProfile);
-    const { name, department, avatar, userid } = data.data;
-    this.userinfo = { name, department, avatar };
-    this.userid = userid;
+    const { name, nickname, headimgurl, id } = data.data.user;
+    this.userinfo = { name, nickname, headimgurl };
+    this.userid = id;
   },
 };
