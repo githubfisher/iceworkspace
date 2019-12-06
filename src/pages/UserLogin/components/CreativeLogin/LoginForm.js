@@ -1,20 +1,31 @@
 import React from 'react';
 import { Message } from '@alifd/next';
+import { withRouter } from 'react-router-dom';
 import AuthForm from './AuthForm';
+import { request } from '@/utils/request';
+import { userLogin } from '@/config/dataSource';
 
-export default function LoginForm() {
+
+export default withRouter(function LoginForm(props) {
   const formChange = (value) => {
     console.log('formChange:', value);
   };
 
-  const handleSubmit = (errors, values) => {
-    if (errors) {
-      console.log('errors', errors);
-      return;
+  const  handleSubmit = async (errors, value) => {
+    try {
+      userLogin.data = {
+        mobile: value.name,
+        password: value.password
+      };
+      const { data } = await request(userLogin);
+      Message.success('登录成功');
+      console.log('set token ', data.data.token);
+      localStorage.setItem('token', 'Bearer '.concat(data.data.token));
+      props.history.push('/dashboard/monitor');
+    } catch(err) {
+      // request 方法已处理异常，通常这里不需要做特殊处理
+      console.error(err);
     }
-    console.log('values:', values);
-    Message.success('登录成功');
-    // 登录成功后做对应的逻辑处理
   };
 
   const config = [
@@ -37,10 +48,10 @@ export default function LoginForm() {
       component: 'Input',
       componentProps: {
         placeholder: '密码',
-        htmlType: 'passwd',
+        htmlType: 'password',
       },
       formBinderProps: {
-        name: 'passwd',
+        name: 'password',
         required: true,
         message: '必填',
       },
@@ -65,13 +76,13 @@ export default function LoginForm() {
 
   const initFields = {
     name: '',
-    passwd: '',
+    password: '',
     checkbox: false,
   };
 
   const links = [
     { to: '/register', text: '立即注册' },
-    { to: '/forgetpassword', text: '找回密码' },
+    { to: '/forget', text: '找回密码' },
   ];
 
   return (
@@ -84,4 +95,4 @@ export default function LoginForm() {
       links={links}
     />
   );
-}
+})

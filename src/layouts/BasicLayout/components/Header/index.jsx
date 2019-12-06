@@ -10,7 +10,7 @@ import SelectLang from '@/components/SelectLang';
 import Auth from '@/components/Auth';
 import { useRequest } from '@/utils/request';
 import { userLogout } from '@/config/dataSource';
-import Logo from '../Logo'
+import Logo from '../Logo';
 
 import styles from './index.module.scss';
 
@@ -49,6 +49,8 @@ function Header(props) {
     try {
       await request();
       Message.success('已登出');
+      console.log('delete token ');
+      localStorage.setItem('token', null);
       props.history.push('/user/login');
     } catch (err) {
       console.error(err);

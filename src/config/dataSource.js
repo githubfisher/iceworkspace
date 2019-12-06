@@ -1,16 +1,15 @@
-
 export const userProfile = {
-  url: '/api/profile',
+  url: '/user/auth/me',
   method: 'GET',
 };
 
 export const userLogout = {
-  url: '/api/logout',
-  method: 'POST',
+  url: '/user/auth/logout',
+  method: 'GET',
 };
 
 export const userLogin = {
-  url: '/api/login',
+  url: '/user/auth/login',
   method: 'POST',
 };
 
