@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Button, Icon, Pagination } from '@alifd/next';
 import IceContainer from '@icedesign/container';
 import styles from './index.module.scss';
@@ -24,16 +24,34 @@ const getMockData = () => {
   return result;
 };
 
+async function getPermissions() 
+{
+  let list = [];
+  const { data } = await request(permissionList);
+  list = Array.from(data.data.list);
 
+  return { list };
+}
 
 // 注意：下载数据的功能，强烈推荐通过接口实现数据输出，并下载
 // 因为这样可以有下载鉴权和日志记录，包括当前能不能下载，以及谁下载了什么
 
 export default function SelectableTable() {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [dataSource] = useState(getMockData());
-  const [isLoading] = useState(false);
+  const [dataSource, setDataSource] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    setLoading(true);
+    const { list } = await getPermissions();
+    setDataSource(list);
+    setLoading(false);
+  }
+  
   // 表格可以勾选配置项
   const rowSelection = {
     // 表格发生勾选状态变化时触发

@@ -64,7 +64,6 @@ export async function request(options) {
       throw error;
     } else {
       console.log('response: ', response);
-      console.log('data: ', data);
 
       return { response, data};
     }
@@ -109,7 +108,7 @@ export function useRequest(options) {
         ...options,
         ...config,
       });
-      console.log('response: ', response);
+      console.log('response is ', response);
       const { error } = handleResponse(response);
 
       if (error) {
@@ -130,10 +129,7 @@ export function useRequest(options) {
     }
   }
 
-  return {
-    ...state,
-    request,
-  };
+  return { ...state, request };
 }
 
 /**
@@ -178,19 +174,17 @@ function requestReducer(state, action) {
  * @return {object} data or error according to status code
  */
 function handleResponse(response) {
-  const {
-    data
-  } = response;
+  const { data } = response;
   // Please modify the status key according to your business logic
   // normally the key is `status` or `code`
   if (response.status >= 200 && response.status < 400) {
     return { data };
   } else if (response.status === 401) {
-    console.log(response.status);
-    location.href = '/user/login';
+    console.log('response.status is ', response.status);
   } else {
     const error = new Error(data.message || data.error || '网络异常, 请稍后再试');
-    return { error};
+
+    return { error };
   }
 }
 
