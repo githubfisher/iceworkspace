@@ -15,7 +15,7 @@ export default withRouter(function LoginForm(props) {
     try {
       userLogin.data = {
         mobile: value.name,
-        password: value.password
+        password: value.password,
       };
       const { data } = await request(userLogin);
       Message.success('登录成功');
@@ -95,4 +95,4 @@ export default withRouter(function LoginForm(props) {
       links={links}
     />
   );
-})
+});

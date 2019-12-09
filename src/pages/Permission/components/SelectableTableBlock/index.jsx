@@ -1,28 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Icon, Pagination } from '@alifd/next';
+import { Table, Button, Icon, Pagination} from '@alifd/next';
 import IceContainer from '@icedesign/container';
 import styles from './index.module.scss';
 import { permissionList } from '@/config/dataSource';
 import { request } from '@/utils/request';
-
-const getMockData = () => {
-  const result = [];
-  for (let i = 0; i < 10; i += 1) {
-    result.push({
-      id: 100306660940 + i,
-      title: {
-        name: `Quotation for 1PCS Nano ${3 + i}.0 controller compatible`,
-      },
-      type: 'demo示例',
-      template: '参数字典列表',
-      status: '已发布',
-      publisher: '小马',
-      rate: '5',
-      time: 2000 + i,
-    });
-  }
-  return result;
-};
 
 async function getPermissions() 
 {
@@ -52,6 +33,10 @@ export default function SelectableTable() {
     setLoading(false);
   }
   
+  const createPermission = () => {
+    console.log('createPermission');
+  };
+
   // 表格可以勾选配置项
   const rowSelection = {
     // 表格发生勾选状态变化时触发
@@ -102,7 +87,11 @@ export default function SelectableTable() {
     <div className={`${styles.selectableTable} selectable-table`} >
       <IceContainer className={styles.IceContainer}>
         <div>
-          <Button size="small" className={styles.batchBtn}>
+          <Button
+           size="small" 
+           className={styles.batchBtn} 
+           onClick={createPermission}
+          >
             <Icon type="add" />增加
           </Button>
           <Button

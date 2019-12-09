@@ -30,6 +30,7 @@ axios.interceptors.response.use(function (response) {
     case 401:
       // 自动刷新token
       if (token) {
+        console.log('refresh token');
         localStorage.setItem('token', token);
         location.href = '';
       } else {
