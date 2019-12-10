@@ -1,40 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Icon, Pagination} from '@alifd/next';
+import { Table, Button, Icon, Pagination, Balloon, Select} from '@alifd/next';
 import IceContainer from '@icedesign/container';
-import styles from './index.module.scss';
-import { permissionList } from '@/config/dataSource';
 import { request } from '@/utils/request';
-
-async function getPermissions() 
-{
-  let list = [];
-  const { data } = await request(permissionList);
-  list = Array.from(data.data.list);
-
-  return { list };
-}
+import { roleList, assignRole } from '@/config/dataSource';
+import styles from './index.module.scss';
 
 // 注意：下载数据的功能，强烈推荐通过接口实现数据输出，并下载
 // 因为这样可以有下载鉴权和日志记录，包括当前能不能下载，以及谁下载了什么
-
-export default function SelectableTable() {
+export default function SelectableTable(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [dataSource, setDataSource] = useState([]);
-  const [isLoading, setLoading] = useState(false);
-
+  const [roles, setRoles] = useState([]);
+  
   useEffect(() => {
-    fetchData();
+    props.fetchData();
+    getRoles();
   }, []);
 
-  async function fetchData() {
-    setLoading(true);
-    const { list } = await getPermissions();
-    setDataSource(list);
-    setLoading(false);
+  async function getRoles() {
+    const list = [];
+    const { data } = await request(roleList);
+    data.data.list.forEach(element => {
+      list.push({'label': element.name.concat('(', element.guard_name, ')'), 'value': element.id});
+    });
+    setRoles(list);
   }
-  
+
+  async function assignRoles(value, index) {
+    console.log('value ', value);
+    console.log('index ', index);
+    const permissionId = props.dataSource[index].id;
+    console.log('id ', permissionId);
+
+    const uris = assignRole.url.split('/');
+    console.log('uris', uris);
+
+    uris[3] = permissionId;
+    uris[4] = value;
+    assignRole.url = uris.join('/');
+    console.log('url', assignRole.url);
+    const { data } = await request(assignRole);
+    if (data.code === 0) {
+      console.log('success');
+    }
+  }
+
   const createPermission = () => {
-    console.log('createPermission');
+    props.setVisible(true);
+  };
+
+  const pageChange = function(value) {
+    console.log(value);
+    props.fetchData(value);
   };
 
   // 表格可以勾选配置项
@@ -64,21 +80,27 @@ export default function SelectableTable() {
     console.log('delete keys', selectedRowKeys);
   };
 
-  const deleteItem = (record) => {
+  const deleteItem = (value, record) => {
+    console.log('value', value);
+    console.log('delete item', record);
     const { id } = record;
     console.log('delete item', id);
   };
 
+  const showSelect = <Button className="btrigger">授权</Button>;
+
   const renderOperator = (value, index, record) => {
     return (
       <div>
-        <a>编辑</a>
-        <a
+        <Balloon type="primary" autoFocus trigger={showSelect} closable={false} triggerType="click">
+          <Select placeholder="请选择" dataSource={roles} followTrigger onChange={(e) => assignRoles(e, index)} />
+        </Balloon>
+        <Button
           className={styles.removeBtn}
-          onClick={deleteItem.bind(this, record)}
+          onClick={(e) => deleteItem(e, record)}
         >
           删除
-        </a>
+        </Button>
       </div>
     );
   };
@@ -118,8 +140,8 @@ export default function SelectableTable() {
       </IceContainer>
       <IceContainer>
         <Table
-          dataSource={dataSource}
-          loading={isLoading}
+          dataSource={props.dataSource}
+          loading={props.isLoading}
           rowSelection={{
             ...rowSelection,
             selectedRowKeys,
@@ -138,7 +160,7 @@ export default function SelectableTable() {
           />
         </Table>
         <div className={styles.pagination}>
-          <Pagination />
+          <Pagination size="medium" onChange={pageChange} total={props.total} totalRender={total => `Total: ${total}`} />
         </div>
       </IceContainer>
     </div>

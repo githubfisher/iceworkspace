@@ -6,18 +6,19 @@ import {
   FormBinder as IceFormBinder,
   FormError as IceFormError,
 } from '@icedesign/form-binder';
-import request from '@/utils/request';
+import { permissionCreate } from '@/config/dataSource';
+import { request } from '@/utils/request';
 
 import styles from './index.module.scss';
-import { permissionCreate } from '@/config/dataSource';
 
 const { Row, Col } = Grid;
-export default function UserForm() {
+export default function UserForm(props) {
   const formRef = useRef(null);
   const [value, setValue] = useState({
     name: '',
     guard: null,
   });
+  let isValidateFail = false;
 
   const formChange = () => {
      setValue(value);
@@ -26,11 +27,17 @@ export default function UserForm() {
   const validateAllFormField = () => {
     formRef.current.validateAll((errors, values) => {
       console.log('values', values);
+      if (errors.length > 0) {
+        isValidateFail = true;
+      }
     });
   };
 
-  async function createPermission() {
+  async function crePermission() {
     validateAllFormField();
+    if (isValidateFail) {
+      return;
+    }
 
     try {
       permissionCreate.data = value;
@@ -38,12 +45,12 @@ export default function UserForm() {
       const { data } = await request(permissionCreate);
       if (data.code === 0) {
         console.log('success');
+        props.setVisible(false);
+        props.fetchData();
       }
     } catch(err) {
       console.error('error', err);
     }
-
-    console.log('fail');
   }
 
   return (
@@ -100,7 +107,7 @@ export default function UserForm() {
             <Button
               size="large"
               type="primary"
-              onClick={createPermission}
+              onClick={crePermission}
             >
               提 交
             </Button>

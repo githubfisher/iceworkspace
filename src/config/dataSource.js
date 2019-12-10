@@ -29,7 +29,12 @@ export const permissionList = {
 };
 
 export const permissionCreate = {
-  url: '/permission',
+  url: '/permission/create',
+  method: 'POST',
+};
+
+export const assignRole = {
+  url: '/permission/assign',
   method: 'POST',
 };
 
