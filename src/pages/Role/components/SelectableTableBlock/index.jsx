@@ -1,34 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Button, Icon, Pagination } from '@alifd/next';
 import IceContainer from '@icedesign/container';
 import styles from './index.module.scss';
 
-const getMockData = () => {
-  const result = [];
-  for (let i = 0; i < 10; i += 1) {
-    result.push({
-      id: 100306660940 + i,
-      title: {
-        name: `Quotation for 1PCS Nano ${3 + i}.0 controller compatible`,
-      },
-      type: 'demo示例',
-      template: '参数字典列表',
-      status: '已发布',
-      publisher: '小马',
-      rate: '5',
-      time: 2000 + i,
-    });
-  }
-  return result;
-};
-
 // 注意：下载数据的功能，强烈推荐通过接口实现数据输出，并下载
 // 因为这样可以有下载鉴权和日志记录，包括当前能不能下载，以及谁下载了什么
 
-export default function SelectableTable() {
+export default function SelectableTable(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [dataSource] = useState(getMockData());
-  const [isLoading] = useState(false);
+
+  useEffect(() => {
+    props.fetchData();
+  }, []);
 
   // 表格可以勾选配置项
   const rowSelection = {
@@ -107,21 +90,18 @@ export default function SelectableTable() {
       </IceContainer>
       <IceContainer>
         <Table
-          dataSource={dataSource}
-          loading={isLoading}
+          dataSource={props.dataSource}
+          loading={props.isLoading}
           rowSelection={{
             ...rowSelection,
             selectedRowKeys,
           }}
         >
-          <Table.Column title="编码" dataIndex="id" width={120} />
-          <Table.Column title="名称" dataIndex="title.name" width={350} />
-          <Table.Column title="类型" dataIndex="type" width={160} />
-          <Table.Column title="模板" dataIndex="template" width={160} />
-          <Table.Column title="发布状态" dataIndex="status" width={120} />
-          <Table.Column title="评分" dataIndex="rate" width={120} />
-          <Table.Column title="操作者" dataIndex="publisher" width={120} />
-          <Table.Column title="修改时间" dataIndex="time" width={120} />
+          <Table.Column title="编号" dataIndex="id" width={120} />
+          <Table.Column title="名称" dataIndex="name" width={350} />
+          <Table.Column title="门户" dataIndex="guard_name" width={160} />
+          <Table.Column title="创建时间" dataIndex="created_at" width={120} />
+          <Table.Column title="修改时间" dataIndex="updated_at" width={120} />
           <Table.Column
             title="操作"
             cell={renderOperator}
@@ -129,9 +109,6 @@ export default function SelectableTable() {
             width={120}
           />
         </Table>
-        <div className={styles.pagination}>
-          <Pagination />
-        </div>
       </IceContainer>
     </div>
   );
