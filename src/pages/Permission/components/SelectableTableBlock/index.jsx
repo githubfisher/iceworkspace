@@ -81,7 +81,7 @@ export default function SelectableTable(props) {
   };
 
   const deleteItem = (value, record) => {
-    console.log('value', value);
+    console.log('value', record);
     console.log('delete item', record);
     const { id } = record;
     console.log('delete item', id);
